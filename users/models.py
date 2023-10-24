@@ -16,7 +16,7 @@ class Users(AbstractUser):
     ]
     gender = models.BooleanField(choices=GENDER_CHOICES, verbose_name='جنسیت')
     birthdate = models.DateField(verbose_name='تاریخ تولد')
-    role_id = models.ManyToManyField(
+    role = models.ManyToManyField(
         'users.Rols',
         related_name='roles'
     )
@@ -56,12 +56,12 @@ class Students(Users):
     military_service_status = models.CharField(max_length=20, choices=MILITARY_SERVICE_CHOICES)
     #سنوات نمیدونم چیه و چطور محاسبه میشه شاید بشه از فیلدای دیگه محاسبش کرد و متد درنظرش گرفت
     academic_years = models.CharField(max_length=4,verbose_name='سنوات')
-    majore_id = models.ForeignKey(Majores,on_delete=models.PROTECT, related_name='student_majore')
-    college_id = models.ForeignKey(Colleges,on_delete=models.PROTECT,related_name='student_college')
+    majore = models.ForeignKey(Majores,on_delete=models.PROTECT, related_name='student_majore')
+    college = models.ForeignKey(Colleges,on_delete=models.PROTECT,related_name='student_college')
 
 
 class Teachers(Users):
-    majore_id = models.ForeignKey(Majores,on_delete=models.PROTECT, related_name='teacher_majore')
-    college_id = models.ForeignKey(Colleges,on_delete=models.PROTECT,related_name='teacher_college')
-    expertise_id = models.ForeignKey(Expertises,on_delete=models.PROTECT,related_name='teacher_expertise')
-    hindex_id = models.ForeignKey(Hindexs,on_delete=models.PROTECT,related_name='teacher_hindex')
+    majore = models.ForeignKey(Majores,on_delete=models.PROTECT, related_name='teacher_majore')
+    college = models.ForeignKey(Colleges,on_delete=models.PROTECT,related_name='teacher_college')
+    expertise = models.ForeignKey(Expertises,on_delete=models.PROTECT,related_name='teacher_expertise')
+    hindex = models.ForeignKey(Hindexs,on_delete=models.PROTECT,related_name='teacher_hindex')
