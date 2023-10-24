@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+from colleges.models import Colleges, Expertises, Hindexs, Majores
+
 
 class Users(AbstractUser):
     user_code = models.CharField(max_length=30,verbose_name='کد')
@@ -34,14 +36,6 @@ class Rols(models.Model):
     title = models.CharField(max_length=30)
 
 
-class Majores(models.Model):
-    title = models.CharField(max_length=30)
-
-
-class Colleges(models.Model):
-        title = models.CharField(max_length=30)
-
-
 class Students(Users):
     user_id = models.OneToOneField(Users, on_delete=models.CASCADE, related_name='student')
     #sal va term ro nemidoonam; agar mohasebat nadarim char bashe
@@ -64,3 +58,10 @@ class Students(Users):
     academic_years = models.CharField(max_length=4,verbose_name='سنوات')
     majore_id = models.ForeignKey(Majores,on_delete=models.PROTECT, related_name='student_majore')
     college_id = models.ForeignKey(Colleges,on_delete=models.PROTECT,related_name='student_college')
+
+
+class Teachers(Users):
+    majore_id = models.ForeignKey(Majores,on_delete=models.PROTECT, related_name='teacher_majore')
+    college_id = models.ForeignKey(Colleges,on_delete=models.PROTECT,related_name='teacher_college')
+    expertise_id = models.ForeignKey(Expertises,on_delete=models.PROTECT,related_name='teacher_expertise')
+    hindex_id = models.ForeignKey(Hindexs,on_delete=models.PROTECT,related_name='teacher_hindex')
